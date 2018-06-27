@@ -2,7 +2,6 @@ package gomatrixserverlib
 
 import (
 	"context"
-	"net/url"
 
 	"golang.org/x/crypto/ed25519"
 )
@@ -69,8 +68,8 @@ func (ac *FederationClient) MakeJoin(
 	ctx context.Context, s ServerName, roomID, userID string,
 ) (res RespMakeJoin, err error) {
 	path := federationPathPrefix + "/make_join/" +
-		url.PathEscape(roomID) + "/" +
-		url.PathEscape(userID)
+		roomID + "/" +
+		userID
 	req := NewFederationRequest("GET", s, path)
 	err = ac.doRequest(ctx, req, &res)
 	return
@@ -84,8 +83,8 @@ func (ac *FederationClient) SendJoin(
 	ctx context.Context, s ServerName, event Event,
 ) (res RespSendJoin, err error) {
 	path := federationPathPrefix + "/send_join/" +
-		url.PathEscape(event.RoomID()) + "/" +
-		url.PathEscape(event.EventID())
+		event.RoomID() + "/" +
+		event.EventID()
 	req := NewFederationRequest("PUT", s, path)
 	if err = req.SetContent(event); err != nil {
 		return
@@ -100,8 +99,8 @@ func (ac *FederationClient) SendInvite(
 	ctx context.Context, s ServerName, event Event,
 ) (res RespInvite, err error) {
 	path := federationPathPrefix + "/invite/" +
-		url.PathEscape(event.RoomID()) + "/" +
-		url.PathEscape(event.EventID())
+		event.RoomID() + "/" +
+		event.EventID()
 	req := NewFederationRequest("PUT", s, path)
 	if err = req.SetContent(event); err != nil {
 		return
@@ -118,8 +117,7 @@ func (ac *FederationClient) SendInvite(
 func (ac *FederationClient) ExchangeThirdPartyInvite(
 	ctx context.Context, s ServerName, builder EventBuilder,
 ) (err error) {
-	path := federationPathPrefix + "/exchange_third_party_invite/" +
-		url.PathEscape(builder.RoomID)
+	path := federationPathPrefix + "/exchange_third_party_invite/" + builder.RoomID
 	req := NewFederationRequest("PUT", s, path)
 	if err = req.SetContent(builder); err != nil {
 		return
@@ -146,9 +144,9 @@ func (ac *FederationClient) LookupStateIDs(
 	ctx context.Context, s ServerName, roomID, eventID string,
 ) (res RespStateIDs, err error) {
 	path := federationPathPrefix + "/state_ids/" +
-		url.PathEscape(roomID) +
+		roomID +
 		"/?event_id=" +
-		url.QueryEscape(eventID)
+		eventID
 	req := NewFederationRequest("GET", s, path)
 	err = ac.doRequest(ctx, req, &res)
 	return
@@ -163,7 +161,7 @@ func (ac *FederationClient) LookupRoomAlias(
 	ctx context.Context, s ServerName, roomAlias string,
 ) (res RespDirectory, err error) {
 	path := federationPathPrefix + "/query/directory?room_alias=" +
-		url.QueryEscape(roomAlias)
+		roomAlias
 	req := NewFederationRequest("GET", s, path)
 	err = ac.doRequest(ctx, req, &res)
 	return
