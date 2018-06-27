@@ -133,10 +133,8 @@ func (ac *FederationClient) ExchangeThirdPartyInvite(
 func (ac *FederationClient) LookupState(
 	ctx context.Context, s ServerName, roomID, eventID string,
 ) (res RespState, err error) {
-	path := federationPathPrefix + "/state/" +
-		url.PathEscape(roomID) +
-		"/?event_id=" +
-		url.QueryEscape(eventID)
+	path := federationPathPrefix + "/state/" + roomID +
+		"/?event_id=" + eventID
 	req := NewFederationRequest("GET", s, path)
 	err = ac.doRequest(ctx, req, &res)
 	return
