@@ -43,6 +43,7 @@ media:
 kafka:
   addresses: ["localhost:9092"]
   topics:
+    input_typing_event: input.typing
     output_room_event: output.room
     output_client_data: output.client
     user_updates: output.user

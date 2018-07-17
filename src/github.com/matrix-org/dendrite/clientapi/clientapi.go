@@ -52,6 +52,11 @@ func SetupClientAPIComponent(
 		Topic:    string(base.Cfg.Kafka.Topics.OutputClientData),
 	}
 
+	typingProducer := &producers.TypingServerProducer{
+		Producer: base.KafkaProducer,
+		Topic:    string(base.Cfg.Kafka.Topics.InputTypingEvent),
+	}
+
 	consumer := consumers.NewOutputRoomEventConsumer(
 		base.Cfg, base.KafkaConsumer, accountsDB, queryAPI,
 	)
@@ -63,7 +68,7 @@ func SetupClientAPIComponent(
 		base.APIMux, *base.Cfg, roomserverProducer,
 		queryAPI, aliasAPI, accountsDB, deviceDB,
 		federation, *keyRing,
-		userUpdateProducer, syncProducer,
+		userUpdateProducer, syncProducer, typingProducer,
 		transactionsCache,
 	)
 }

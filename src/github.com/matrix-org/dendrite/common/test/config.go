@@ -84,6 +84,7 @@ func MakeConfig(configDir, kafkaURI, database, host string, startPort int) (*con
 	cfg.Kafka.Topics.OutputRoomEvent = "test.room.output"
 	cfg.Kafka.Topics.OutputClientData = "test.clientapi.output"
 	cfg.Kafka.Topics.UserUpdates = "test.user.output"
+	cfg.Kafka.Topics.InputTypingEvent = "test.typing.input"
 
 	// TODO: Use different databases for the different schemas.
 	// Using the same database for every schema currently works because

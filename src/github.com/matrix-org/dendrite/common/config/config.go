@@ -130,6 +130,8 @@ type Dendrite struct {
 		UseNaffka bool `yaml:"use_naffka,omitempty"`
 		// The names of the topics to use when reading and writing from kafka.
 		Topics struct {
+			// Topic for sending typing events to typing server
+			InputTypingEvent Topic `yaml:"input_typing_event"`
 			// Topic for roomserver/api.OutputRoomEvent events.
 			OutputRoomEvent Topic `yaml:"output_room_event"`
 			// Topic for sending account data from client API to sync API
@@ -523,6 +525,7 @@ func (config *Dendrite) checkKafka(configErrs *configErrors, monolithic bool) {
 		// server to talk to.
 		checkNotZero(configErrs, "kafka.addresses", int64(len(config.Kafka.Addresses)))
 	}
+	checkNotEmpty(configErrs, "kafka.topics.input_typing_event", string(config.Kafka.Topics.InputTypingEvent))
 	checkNotEmpty(configErrs, "kafka.topics.output_room_event", string(config.Kafka.Topics.OutputRoomEvent))
 	checkNotEmpty(configErrs, "kafka.topics.output_client_data", string(config.Kafka.Topics.OutputClientData))
 	checkNotEmpty(configErrs, "kafka.topics.user_updates", string(config.Kafka.Topics.UserUpdates))
