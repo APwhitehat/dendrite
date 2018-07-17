@@ -40,11 +40,13 @@ var ErrRoomNoExists = errors.New("Room does not exist")
 func BuildEvent(
 	ctx context.Context,
 	builder *gomatrixserverlib.EventBuilder, cfg config.Dendrite,
-	queryAPI api.RoomserverQueryAPI, queryRes *api.QueryLatestEventsAndStateResponse,
+	queryAPI *api.RoomserverQueryAPI, queryRes *api.QueryLatestEventsAndStateResponse,
 ) (*gomatrixserverlib.Event, error) {
-	err := AddPrevEventsToEvent(ctx, builder, queryAPI, queryRes)
-	if err != nil {
-		return nil, err
+	if queryAPI != nil {
+		err := AddPrevEventsToEvent(ctx, builder, *queryAPI, queryRes)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	eventID := fmt.Sprintf("$%s:%s", util.RandomString(16), cfg.Matrix.ServerName)

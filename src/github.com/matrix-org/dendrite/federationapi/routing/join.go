@@ -65,7 +65,7 @@ func MakeJoin(
 	}
 
 	var queryRes api.QueryLatestEventsAndStateResponse
-	event, err := common.BuildEvent(ctx, &builder, cfg, query, &queryRes)
+	event, err := common.BuildEvent(ctx, &builder, cfg, &query, &queryRes)
 	if err == common.ErrRoomNoExists {
 		return util.JSONResponse{
 			Code: http.StatusNotFound,

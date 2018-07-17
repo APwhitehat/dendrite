@@ -285,7 +285,7 @@ func buildMembershipEvents(
 			return nil, err
 		}
 
-		event, err := common.BuildEvent(ctx, &builder, *cfg, queryAPI, nil)
+		event, err := common.BuildEvent(ctx, &builder, *cfg, &queryAPI, nil)
 		if err != nil {
 			return nil, err
 		}

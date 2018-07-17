@@ -350,7 +350,7 @@ func emit3PIDInviteEvent(
 	}
 
 	var queryRes *api.QueryLatestEventsAndStateResponse
-	event, err := common.BuildEvent(ctx, builder, cfg, queryAPI, queryRes)
+	event, err := common.BuildEvent(ctx, builder, cfg, &queryAPI, queryRes)
 	if err != nil {
 		return err
 	}
